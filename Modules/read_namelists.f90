@@ -339,6 +339,11 @@ MODULE read_namelists_module
        !
        nextffield = 0
        !
+       ! ... Finite Field method
+       !
+       input_ffpot_file = ''
+       ffield_response_calc = .FALSE.
+       !
        RETURN
        !
      END SUBROUTINE
@@ -1101,7 +1106,12 @@ MODULE read_namelists_module
        ! ... Extffield information
        !
        CALL mp_bcast( nextffield,         ionode_id, intra_image_comm )
-
+       !
+       ! ... Finite Field method
+       !
+       CALL mp_bcast( input_ffpot_file,         ionode_id, intra_image_comm )
+       CALL mp_bcast( ffield_response_calc,     ionode_id, intra_image_comm )
+       !
        RETURN
        !
      END SUBROUTINE

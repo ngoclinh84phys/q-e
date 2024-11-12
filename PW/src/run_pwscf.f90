@@ -76,6 +76,8 @@ SUBROUTINE run_pwscf( exit_status )
   USE oscdft_functions,  ONLY : oscdft_run_pwscf
 #endif
   !
+  USE input_parameters,     ONLY : ffield_response_calc  ! Finite Field method NNL
+  !
   IMPLICIT NONE
   !
   INTEGER, INTENT(OUT) :: exit_status
@@ -176,6 +178,8 @@ SUBROUTINE run_pwscf( exit_status )
   !
   main_loop: DO idone = 1, nstep
      !
+     IF (ffield_response_calc) CALL init_ff_calc() ! NLN
+     !
      ! ... electronic self-consistency or band structure calculation
      !
 #if defined (__OSCDFT)
@@ -191,6 +195,8 @@ SUBROUTINE run_pwscf( exit_status )
 #if defined (__OSCDFT)
      END IF
 #endif
+     !
+     IF (ffield_response_calc) CALL ends_ff_calc() ! NLN
      !
      ! ... code stopped by user or not converged
      !

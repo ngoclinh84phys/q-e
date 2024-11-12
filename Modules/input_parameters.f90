@@ -670,9 +670,13 @@ MODULE input_parameters
         INTEGER :: nextffield = 0 
         !! Number of activated external force fields 
         !
-
-
-
+        ! Finite Field Method vars 
+        CHARACTER(len=256) :: input_ffpot_file = ' '
+        !! File storing static pertubing potential for finite field calculations  
+        LOGICAL :: ffield_response_calc = .FALSE. 
+        !! if TRUE the finite field calculation is activated
+        ! 
+        !
         NAMELIST / system / ibrav, celldm, a, b, c, cosab, cosac, cosbc, nat, &
              ntyp, nbnd, ecutwfc, ecutrho, nr1, nr2, nr3, nr1s, nr2s,         &
              nr3s, nr1b, nr2b, nr3b, nosym, nosym_evc, noinv, use_all_frac,   &
@@ -707,8 +711,8 @@ MODULE input_parameters
              gcscf_gk, gcscf_gh, gcscf_beta,                                  &
              space_group, uniqueb, origin_choice, rhombohedral,               &
              zgate, relaxz, block, block_1, block_2, block_height,            &
-             nextffield
-
+             nextffield, &
+             input_ffpot_file, ffield_response_calc  ! Finite Field Method
 !=----------------------------------------------------------------------------=!
 !  ELECTRONS Namelist Input Parameters
 !=----------------------------------------------------------------------------=!

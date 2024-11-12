@@ -16,6 +16,8 @@ SUBROUTINE set_vrs( vrs, vltot, vr, kedtau, kedtaur, nrxx, nspin, doublegrid )
   USE xc_lib,          ONLY : xclib_dft_is
   USE fft_base,        ONLY : dffts, dfftp
   USE fft_interfaces,  ONLY : fft_interpolate
+  ! The variables for Finite Field method NLN
+  USE ff_module, ONLY: dpotff_r, finite_field_pert, ff_scale_factor
   !
   IMPLICIT NONE
   !
@@ -51,6 +53,18 @@ SUBROUTINE set_vrs( vrs, vltot, vr, kedtau, kedtaur, nrxx, nspin, doublegrid )
         vrs(:,is) = vltot(:) + vr(:,is)
      ENDIF
      !
+     ! add Finite File potential, if any ! NNL
+     !
+     IF (finite_field_pert) THEN
+        !
+        IF (allocated(dpotff_r)) THEN
+           !
+           vrs (:, is) = vrs (:, is) + dpotff_r(:, is)*ff_scale_factor
+           !
+        ENDIF
+        !
+     ENDIF
+     !  
   ENDDO
   !
   ! ... interpolate it on the smooth mesh if necessary
